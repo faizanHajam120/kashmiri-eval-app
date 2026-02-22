@@ -88,6 +88,7 @@ export default function EvaluatePage() {
                 <div className="navbar-inner">
                     <Link href="/" className="navbar-brand">KashmirAI Eval</Link>
                     <div className="navbar-links">
+                        <Link href="/guide" style={{ fontWeight: 600, color: "var(--accent)" }}>📖 Guide</Link>
                         <Link href="/progress">My Progress</Link>
                         {profile?.role === "admin" && <Link href="/admin">Admin</Link>}
                         <button onClick={handleLogout}>Logout</button>

@@ -112,6 +112,7 @@ export default function AdminPage() {
                 <div className="navbar-inner">
                     <Link href="/" className="navbar-brand">KashmirAI Eval</Link>
                     <div className="navbar-links">
+                        <Link href="/guide" style={{ fontWeight: 600, color: "var(--accent)" }}>📖 Guide</Link>
                         <Link href="/evaluate">Evaluate</Link>
                         <Link href="/admin/upload">Upload CSV</Link>
                         <button onClick={handleLogout}>Logout</button>
