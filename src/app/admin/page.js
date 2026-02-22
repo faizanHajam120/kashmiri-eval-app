@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 
 export default function AdminPage() {
     const [profile, setProfile] = useState(null);
@@ -55,6 +56,17 @@ export default function AdminPage() {
     const prefA = allRatings.filter(r => r.preference === "A").length;
     const prefB = allRatings.filter(r => r.preference === "B").length;
     const prefTie = allRatings.filter(r => r.preference === "Tie").length;
+
+    const winRateData = [
+        { name: 'System A', Wins: prefA },
+        { name: 'System B', Wins: prefB },
+        { name: 'Ties', Wins: prefTie }
+    ];
+
+    const radarData = [
+        { subject: 'Adequacy', SystemA: parseFloat(avgSysA_Adeq) || 0, SystemB: parseFloat(avgSysB_Adeq) || 0, fullMark: 5 },
+        { subject: 'Fluency', SystemA: parseFloat(avgSysA_Flu) || 0, SystemB: parseFloat(avgSysB_Flu) || 0, fullMark: 5 },
+    ];
 
     function exportCSV() {
         if (allRatings.length === 0) return;
@@ -147,9 +159,45 @@ export default function AdminPage() {
                     </div>
                 </div>
 
-                {/* Score Table */}
+                {/* Score Charts */}
                 <div className="card" style={{ marginBottom: 24 }}>
-                    <h3 style={{ marginBottom: 16 }}>Aggregate Scores</h3>
+                    <h3 style={{ marginBottom: 16 }}>Live Analytics</h3>
+
+                    {allRatings.length > 0 ? (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: 24 }}>
+                            {/* Win Rate Bar Chart */}
+                            <div style={{ height: 300 }}>
+                                <h4 style={{ textAlign: 'center', marginBottom: 16, color: 'var(--text-secondary)' }}>Overall Preference (Wins)</h4>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={winRateData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                                        <XAxis dataKey="name" stroke="var(--text-muted)" />
+                                        <YAxis stroke="var(--text-muted)" allowDecimals={false} />
+                                        <Tooltip cursor={{ fill: 'rgba(255,255,255,0.05)' }} contentStyle={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-subtle)', color: 'var(--text-high)' }} />
+                                        <Bar dataKey="Wins" fill="var(--accent)" radius={[4, 4, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+
+                            {/* Quality Radar Chart */}
+                            <div style={{ height: 300 }}>
+                                <h4 style={{ textAlign: 'center', marginBottom: 16, color: 'var(--text-secondary)' }}>Adequacy vs Fluency</h4>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+                                        <PolarGrid stroke="var(--border-subtle)" />
+                                        <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--text-muted)' }} />
+                                        <PolarRadiusAxis angle={30} domain={[0, 5]} tick={{ fill: 'var(--text-muted)' }} />
+                                        <Radar name="System A" dataKey="SystemA" stroke="var(--accent)" fill="var(--accent)" fillOpacity={0.4} />
+                                        <Radar name="System B" dataKey="SystemB" stroke="#10b981" fill="#10b981" fillOpacity={0.4} />
+                                        <Legend />
+                                        <Tooltip contentStyle={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-subtle)', color: 'var(--text-high)' }} />
+                                    </RadarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                    ) : (
+                        <p style={{ color: 'var(--text-muted)' }}>No ratings yet to generate charts.</p>
+                    )}
+
                     <div className="table-container">
                         <table>
                             <thead><tr><th>Metric</th><th>System A</th><th>System B</th></tr></thead>
@@ -171,16 +219,25 @@ export default function AdminPage() {
                     <h3 style={{ marginBottom: 16 }}>Evaluator Progress</h3>
                     <div className="table-container">
                         <table>
-                            <thead><tr><th>Name</th><th>Role</th><th>Completed</th><th>Progress</th><th>Actions</th></tr></thead>
+                            <thead><tr><th>Name</th><th>Role</th><th>Completed</th><th>Avg Time</th><th>Progress</th><th>Actions</th></tr></thead>
                             <tbody>
                                 {evaluators.map(ev => {
-                                    const done = (evalByUser[ev.id] || []).length;
+                                    const evals = evalByUser[ev.id] || [];
+                                    const done = evals.length;
                                     const pct = evalCount > 0 ? Math.round(done / evalCount * 100) : 0;
+                                    const avgTime = done > 0 ? Math.round(evals.reduce((s, r) => s + r.time_spent_seconds, 0) / done) : 0;
+                                    /* Assume any completion average under 7 seconds for two translations is spam */
+                                    const isSpam = done > 3 && avgTime < 7;
+
                                     return (
                                         <tr key={ev.id}>
-                                            <td>{ev.full_name || "—"}</td>
+                                            <td>
+                                                <div>{ev.full_name || "—"}</div>
+                                                {isSpam && <span className="badge" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.3)', marginTop: 4, display: 'inline-block' }}>⚠️ Spam Risk (Fast)</span>}
+                                            </td>
                                             <td><span className={`badge ${ev.role === "admin" ? "badge-accent" : "badge-success"}`}>{ev.role}</span></td>
                                             <td>{done}/{evalCount}</td>
+                                            <td>{avgTime > 0 ? `${avgTime}s` : "—"}</td>
                                             <td>
                                                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                                     <div className="progress-bar-bg" style={{ flex: 1, height: 6 }}>
