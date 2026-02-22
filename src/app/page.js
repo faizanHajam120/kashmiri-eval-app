@@ -1,66 +1,63 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Ambient glow blobs */}
+      <div className="bg-mesh" />
+      <div className="glow-blob glow-blob-1" />
+      <div className="glow-blob glow-blob-2" />
+      <div className="glow-blob glow-blob-3" />
+
+      <nav className="navbar">
+        <div className="navbar-inner">
+          <Link href="/" className="navbar-brand">KashmirAI Eval</Link>
+          <div className="navbar-links">
+            <Link href="/login">Login</Link>
+            <Link href="/signup" className="btn btn-primary" style={{ padding: '8px 20px' }}>Get Started</Link>
+          </div>
+        </div>
+      </nav>
+
+      <div className="container">
+        <section className="hero">
+          <h1 className="animate-in">Human Evaluation for<br />Kashmiri Translation</h1>
+          <p className="animate-in animate-in-delay-1">
+            Help advance machine translation for the Kashmiri language.
+            Rate translations from two anonymous systems and contribute
+            to cutting-edge NLP research.
           </p>
+          <div className="hero-actions animate-in animate-in-delay-2">
+            <Link href="/signup" className="btn btn-primary btn-lg">Start Evaluating</Link>
+            <Link href="/login" className="btn btn-secondary btn-lg">Sign In</Link>
+          </div>
+        </section>
+
+        <div className="feature-grid">
+          <div className="card animate-in animate-in-delay-2">
+            <h3 style={{ marginBottom: 12 }}>🔤 Kashmiri → English</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.8 }}>
+              Evaluate machine translations of Kashmiri text into English.
+              Compare two anonymous systems side-by-side.
+            </p>
+          </div>
+          <div className="card animate-in animate-in-delay-3">
+            <h3 style={{ marginBottom: 12 }}>📊 Adequacy & Fluency</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.8 }}>
+              Rate translations on a 1-5 scale for meaning preservation
+              (adequacy) and English quality (fluency).
+            </p>
+          </div>
+          <div className="card animate-in animate-in-delay-4">
+            <h3 style={{ marginBottom: 12 }}>🔬 Research Impact</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.8 }}>
+              Your evaluations directly contribute to a published research
+              paper comparing LLM vs NMT for low-resource translation.
+            </p>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 }
