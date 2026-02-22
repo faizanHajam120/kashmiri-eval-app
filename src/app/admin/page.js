@@ -11,6 +11,7 @@ export default function AdminPage() {
     const [allRatings, setAllRatings] = useState([]);
     const [allEvaluations, setAllEvaluations] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isDeleting, setIsDeleting] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -81,6 +82,21 @@ export default function AdminPage() {
 
         // Cleanup
         setTimeout(() => URL.revokeObjectURL(url), 100);
+    }
+
+    async function deleteResponses(evaluatorId) {
+        if (!confirm("Are you sure you want to delete ALL responses submitted by this evaluator? This cannot be undone.")) return;
+
+        setIsDeleting(evaluatorId);
+        const { error } = await supabase.from("ratings").delete().eq("evaluator_id", evaluatorId);
+        setIsDeleting(null);
+
+        if (error) {
+            alert("Error deleting responses: " + error.message);
+        } else {
+            // Remove from local state to instantly update the UI without reloading
+            setAllRatings(prev => prev.filter(r => r.evaluator_id !== evaluatorId));
+        }
     }
 
     async function handleLogout() {
@@ -154,7 +170,7 @@ export default function AdminPage() {
                     <h3 style={{ marginBottom: 16 }}>Evaluator Progress</h3>
                     <div className="table-container">
                         <table>
-                            <thead><tr><th>Name</th><th>Role</th><th>Completed</th><th>Progress</th></tr></thead>
+                            <thead><tr><th>Name</th><th>Role</th><th>Completed</th><th>Progress</th><th>Actions</th></tr></thead>
                             <tbody>
                                 {evaluators.map(ev => {
                                     const done = (evalByUser[ev.id] || []).length;
@@ -171,6 +187,18 @@ export default function AdminPage() {
                                                     </div>
                                                     <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{pct}%</span>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                {ev.role !== "admin" && (
+                                                    <button
+                                                        onClick={() => deleteResponses(ev.id)}
+                                                        className="btn"
+                                                        style={{ padding: "4px 10px", fontSize: "0.75rem", background: "rgba(220, 38, 38, 0.1)", color: "#f87171", border: "1px solid rgba(220, 38, 38, 0.3)", borderRadius: "var(--radius-sm)" }}
+                                                        disabled={isDeleting === ev.id || done === 0}
+                                                    >
+                                                        {isDeleting === ev.id ? "..." : "Delete Data"}
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     );
