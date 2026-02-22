@@ -61,7 +61,7 @@ export default function SignupPage() {
         <>
             <nav className="navbar">
                 <div className="navbar-inner">
-                    <Link href="/" className="navbar-brand">KashmirAI Eval</Link>
+                    <Link href="/" className="navbar-brand">KashmirAI Research</Link>
                 </div>
             </nav>
             <div className="container page">

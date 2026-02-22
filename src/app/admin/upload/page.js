@@ -112,7 +112,7 @@ export default function UploadPage() {
         <>
             <nav className="navbar">
                 <div className="navbar-inner">
-                    <Link href="/" className="navbar-brand">KashmirAI Eval</Link>
+                    <Link href="/" className="navbar-brand">KashmirAI Research</Link>
                     <div className="navbar-links">
                         <Link href="/admin">Dashboard</Link>
                         <Link href="/evaluate">Evaluate</Link>

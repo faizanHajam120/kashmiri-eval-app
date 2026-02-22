@@ -122,7 +122,7 @@ export default function AdminPage() {
         <>
             <nav className="navbar">
                 <div className="navbar-inner">
-                    <Link href="/" className="navbar-brand">KashmirAI Eval</Link>
+                    <Link href="/" className="navbar-brand">KashmirAI Research</Link>
                     <div className="navbar-links">
                         <Link href="/guide" style={{ fontWeight: 600, color: "var(--accent)" }}>📖 Guide</Link>
                         <Link href="/evaluate">Evaluate</Link>

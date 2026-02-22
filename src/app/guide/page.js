@@ -28,8 +28,10 @@ export default function GuidePage() {
         <>
             <nav className="navbar">
                 <div className="navbar-inner">
-                    <Link href="/" className="navbar-brand">KashmirAI Eval</Link>
+                    <Link href="/" className="navbar-brand">KashmirAI Research</Link>
                     <div className="navbar-links">
+                        <Link href="/research">Research</Link>
+                        <Link href="/about">About</Link>
                         {profile && <Link href="/evaluate">Evaluate</Link>}
                         {profile && <Link href="/progress">My Progress</Link>}
                         {profile?.role === "admin" && <Link href="/admin">Admin</Link>}
