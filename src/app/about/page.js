@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
     title: "About Faizan Ayoub — AI Researcher | KashmirAI Research",
@@ -64,7 +65,16 @@ export default function AboutPage() {
             <div className="container page">
                 {/* Profile Header */}
                 <section className="about-hero">
-                    <div className="about-avatar animate-in">F</div>
+                    <div className="about-avatar animate-in">
+                        <Image
+                            src="/faizan-ayoub-hero.png"
+                            alt="Faizan Ayoub - Founder of CalmConnect and AI Researcher"
+                            width={120}
+                            height={120}
+                            className="about-avatar-image"
+                            priority
+                        />
+                    </div>
                     <h1 className="animate-in animate-in-delay-1">Faizan (Hajam) Ayoub</h1>
                     <p className="about-role animate-in animate-in-delay-2">AI Researcher & Developer</p>
                     <p className="about-tagline animate-in animate-in-delay-3">
