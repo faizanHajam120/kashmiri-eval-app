@@ -89,6 +89,32 @@ export default function ProgressPage() {
                     </div>
                 </div>
 
+                {/* Milestone Checklist */}
+                <div className="card" style={{ marginBottom: 40, padding: 32 }}>
+                    <h3 style={{ marginBottom: 24, fontSize: '1.25rem', color: 'var(--text-high)' }}>Your Research Milestones</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px', background: progress >= 50 ? 'rgba(52, 211, 153, 0.05)' : 'var(--bg-surface)', border: `1px solid ${progress >= 50 ? 'rgba(52, 211, 153, 0.3)' : 'var(--border-subtle)'}`, borderRadius: 'var(--radius-sm)' }}>
+                            <div style={{ width: 28, height: 28, borderRadius: '50%', background: progress >= 50 ? '#34d399' : 'transparent', border: `2px solid ${progress >= 50 ? '#34d399' : 'var(--border-strong)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#030014', fontWeight: 'bold' }}>
+                                {progress >= 50 ? "✓" : "1"}
+                            </div>
+                            <div>
+                                <h4 style={{ color: progress >= 50 ? '#34d399' : 'var(--text-high)', margin: '0 0 4px 0', fontSize: '1.05rem' }}>Part 1: The First Half</h4>
+                                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-medium)' }}>Complete 50% of the assigned sentences.</p>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px', background: progress >= 100 ? 'rgba(52, 211, 153, 0.05)' : 'var(--bg-surface)', border: `1px solid ${progress >= 100 ? 'rgba(52, 211, 153, 0.3)' : 'var(--border-subtle)'}`, borderRadius: 'var(--radius-sm)' }}>
+                            <div style={{ width: 28, height: 28, borderRadius: '50%', background: progress >= 100 ? '#34d399' : 'transparent', border: `2px solid ${progress >= 100 ? '#34d399' : 'var(--border-strong)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#030014', fontWeight: 'bold' }}>
+                                {progress >= 100 ? "✓" : "2"}
+                            </div>
+                            <div>
+                                <h4 style={{ color: progress >= 100 ? '#34d399' : 'var(--text-high)', margin: '0 0 4px 0', fontSize: '1.05rem' }}>Part 2: The Final Push</h4>
+                                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-medium)' }}>Complete all remaining sentences (100%).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {myRatings.length < totalEvals && (
                     <Link href="/evaluate" className="btn btn-primary btn-lg">Continue Evaluating →</Link>
                 )}

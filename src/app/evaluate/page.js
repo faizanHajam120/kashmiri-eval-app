@@ -97,12 +97,31 @@ export default function EvaluatePage() {
 
             <div className="container page">
                 {/* Progress */}
+                {/* Progress */}
                 <div className="progress-container">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '16px' }}>
+                        <p className="progress-text" style={{ margin: 0, fontSize: '1.05rem', color: 'var(--text-high)' }}>
+                            <strong>{totalDone}</strong> of <strong>{totalAll}</strong> evaluated
+                        </p>
+                        <span className="badge badge-success" style={{ background: 'rgba(52, 211, 153, 0.1)', borderColor: 'rgba(52, 211, 153, 0.2)', color: '#34d399' }}>
+                            ✓ Auto-saved. Safe to exit & resume.
+                        </span>
+                    </div>
                     <div className="progress-bar-bg">
                         <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
                     </div>
-                    <p className="progress-text">{totalDone} of {totalAll} evaluated ({Math.round(progress)}%)</p>
                 </div>
+
+                {/* Milestone Halfway Tracker */}
+                {totalAll > 0 && totalDone === Math.ceil(totalAll / 2) && unrated.length > 0 && (
+                    <div className="success-msg" style={{ width: '100%', marginBottom: 32, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div>
+                            <strong style={{ display: 'block', fontSize: '1.1rem', marginBottom: '4px' }}>🌟 Part 1 Complete!</strong>
+                            You are exactly halfway done. Your progress is saved, so feel free to wrap up for now and resume Part 2 later.
+                        </div>
+                        <Link href="/progress" className="btn btn-secondary" style={{ padding: '10px 20px', fontSize: '0.9rem' }}>Take a Break</Link>
+                    </div>
+                )}
 
                 {!current ? (
                     <div className="card text-center" style={{ padding: 60 }}>
