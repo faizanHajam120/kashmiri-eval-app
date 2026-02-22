@@ -965,40 +965,100 @@ tr:hover td {
    ====================================================== */
 @media (max-width: 768px) {
   .hero h1 {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
   }
 
   .hero p {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
+    padding: 0 16px;
   }
 
   .hero {
-    padding: 100px 0 80px;
+    padding: 80px 0 60px;
+    min-height: auto;
   }
 
-  .feature-grid {
-    grid-template-columns: 1fr;
-    margin-top: 60px;
-  }
-
+  .feature-grid,
   .stats-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .feature-card {
+    padding: 24px;
   }
 
   .hero-actions {
     flex-direction: column;
     align-items: stretch;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    margin: 0;
   }
 
   .pref-buttons {
     flex-direction: column;
   }
 
+  .pref-btn {
+    width: 100%;
+  }
+
   .page-header h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 
   .container {
-    padding: 0 24px;
+    padding: 0 16px;
+  }
+
+  .card {
+    padding: 20px !important;
+  }
+
+  .rating-row {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .rating-buttons {
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .rating-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .navbar-inner {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .navbar-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .rating-btn {
+    width: 36px;
+    height: 36px;
   }
 }

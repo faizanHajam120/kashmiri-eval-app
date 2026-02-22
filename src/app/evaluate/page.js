@@ -158,7 +158,7 @@ export default function EvaluatePage() {
                             <div className="text">{current.system_a_translation}</div>
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
+                        <div className="rating-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
                             <RatingGroup label="System A — Adequacy" value={ratings.sa}
                                 onChange={(v) => setRatings(prev => ({ ...prev, sa: v }))} />
                             <RatingGroup label="System A — Fluency" value={ratings.sf}
@@ -171,7 +171,7 @@ export default function EvaluatePage() {
                             <div className="text">{current.system_b_translation}</div>
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
+                        <div className="rating-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
                             <RatingGroup label="System B — Adequacy" value={ratings.ba}
                                 onChange={(v) => setRatings(prev => ({ ...prev, ba: v }))} />
                             <RatingGroup label="System B — Fluency" value={ratings.bf}
