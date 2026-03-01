@@ -16,6 +16,7 @@ export default function EvaluatePage() {
     const [saving, setSaving] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isSwapped, setIsSwapped] = useState(false);
+    const [showInstructions, setShowInstructions] = useState(false);
 
     const timerRef = useRef(null);
     const startTime = useRef(Date.now());
@@ -210,6 +211,109 @@ export default function EvaluatePage() {
                     </div>
                     <div className="progress-bar-bg">
                         <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
+                    </div>
+
+                    {/* Instructions Panel */}
+                    <div style={{ marginBottom: 24 }}>
+                        <button
+                            onClick={() => setShowInstructions(!showInstructions)}
+                            style={{
+                                width: '100%',
+                                padding: '14px 20px',
+                                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08))',
+                                border: '1px solid rgba(99, 102, 241, 0.2)',
+                                borderRadius: showInstructions ? '12px 12px 0 0' : 12,
+                                color: 'var(--text-high)',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                fontSize: '0.95rem',
+                                fontWeight: 600,
+                                transition: 'all 0.2s ease'
+                            }}
+                        >
+                            <span>📋 How to Evaluate — What do I need to do?</span>
+                            <span style={{ fontSize: '1.2rem', transition: 'transform 0.2s', transform: showInstructions ? 'rotate(180deg)' : 'rotate(0deg)' }}>▼</span>
+                        </button>
+
+                        {showInstructions && (
+                            <div style={{
+                                background: 'rgba(15, 15, 25, 0.6)',
+                                border: '1px solid rgba(99, 102, 241, 0.2)',
+                                borderTop: 'none',
+                                borderRadius: '0 0 12px 12px',
+                                padding: '24px 28px',
+                                fontSize: '0.9rem',
+                                lineHeight: 1.7,
+                                color: 'var(--text-secondary)'
+                            }}>
+                                <div style={{ marginBottom: 20 }}>
+                                    <h3 style={{ color: 'var(--text-high)', fontSize: '1rem', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        🔍 What is this?
+                                    </h3>
+                                    <p style={{ margin: 0 }}>
+                                        You are comparing translations from <strong style={{ color: '#818cf8' }}>two different AI translation systems</strong>.
+                                        For each Kashmiri sentence, you'll see a <strong>reference (correct) translation</strong> and outputs from <strong>System A</strong> and <strong>System B</strong>.
+                                        The systems are anonymized — you won't know which AI model produced each translation. This ensures unbiased evaluation.
+                                    </p>
+                                </div>
+
+                                <div style={{ marginBottom: 20 }}>
+                                    <h3 style={{ color: 'var(--text-high)', fontSize: '1rem', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        ⭐ Rating Scale (1-5)
+                                    </h3>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                                        <div style={{ flex: '1 1 240px', background: 'rgba(255,255,255,0.03)', padding: '12px 16px', borderRadius: 8, borderLeft: '3px solid #818cf8' }}>
+                                            <strong style={{ color: '#818cf8' }}>Adequacy</strong> — Does it capture the <em>meaning</em>?
+                                            <ul style={{ margin: '8px 0 0', paddingLeft: 18, fontSize: '0.85rem' }}>
+                                                <li><strong>5</strong> = All meaning preserved</li>
+                                                <li><strong>4</strong> = Most meaning preserved</li>
+                                                <li><strong>3</strong> = Some meaning preserved</li>
+                                                <li><strong>2</strong> = Little meaning preserved</li>
+                                                <li><strong>1</strong> = No meaningful content</li>
+                                            </ul>
+                                        </div>
+                                        <div style={{ flex: '1 1 240px', background: 'rgba(255,255,255,0.03)', padding: '12px 16px', borderRadius: 8, borderLeft: '3px solid #10b981' }}>
+                                            <strong style={{ color: '#10b981' }}>Fluency</strong> — Does it read <em>naturally</em> in English?
+                                            <ul style={{ margin: '8px 0 0', paddingLeft: 18, fontSize: '0.85rem' }}>
+                                                <li><strong>5</strong> = Flawless, natural English</li>
+                                                <li><strong>4</strong> = Good, minor errors</li>
+                                                <li><strong>3</strong> = Understandable but awkward</li>
+                                                <li><strong>2</strong> = Barely understandable</li>
+                                                <li><strong>1</strong> = Incomprehensible / gibberish</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style={{ marginBottom: 20 }}>
+                                    <h3 style={{ color: 'var(--text-high)', fontSize: '1rem', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        🏆 Overall Preference
+                                    </h3>
+                                    <p style={{ margin: 0 }}>
+                                        After rating both systems, pick which translation you think is <strong>better overall</strong>, or select <strong>Tie</strong> if they are equally good (or equally bad).
+                                        Compare them against the <strong>reference translation</strong> to judge.
+                                    </p>
+                                </div>
+
+                                <div style={{
+                                    background: 'rgba(251, 191, 36, 0.08)',
+                                    border: '1px solid rgba(251, 191, 36, 0.2)',
+                                    borderRadius: 8,
+                                    padding: '12px 16px',
+                                    fontSize: '0.85rem'
+                                }}>
+                                    <strong style={{ color: '#fbbf24' }}>💡 Quick Tips:</strong>
+                                    <ul style={{ margin: '6px 0 0', paddingLeft: 18 }}>
+                                        <li>Read the <strong>reference translation</strong> first, then compare System A and B against it</li>
+                                        <li>Green/red highlights show the <strong>differences</strong> between the two systems</li>
+                                        <li>Rate <strong>each system independently</strong> — don't compare them to each other for adequacy/fluency</li>
+                                        <li>Your progress auto-saves — you can close the tab and come back anytime</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
